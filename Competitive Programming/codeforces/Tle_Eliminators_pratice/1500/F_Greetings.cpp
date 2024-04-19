@@ -1,55 +1,50 @@
-
 #include <bits/stdc++.h>
 using namespace std;
 #define int long long
 const int mod = 1e9 + 7;
-
-void precal() {}
-
+void precal()
+{
+}
 int gcd(int a, int b)
 {
     if (b == 0)
         return a;
-    else
-        return gcd(b, a % b);
+    return gcd(b, a % b);
 }
-
 int lcm(int a, int b)
 {
     return (a / gcd(a, b)) * b;
 }
-
 void solve()
 {
     int n;
     cin >> n;
-
-    vector<int> arr(n);
+    vector<pair<int, int>> arr(n);
+    vector<int> cp(n);
     for (int i = 0; i < n; i++)
     {
-        cin >> arr[i];
+        cin >> arr[i].first;
+        cin >> arr[i].second;
+        cp[i] = arr[i].second;
     }
     sort(arr.begin(), arr.end());
-    int i = 0;
-    int sum = 0;
-    int j = n - 1;
+    sort(cp.begin(), cp.end());
     int res = 0;
-
-    while (i <= j)
+    // for (auto j : cp)
+    // {
+    //     cout << j << " ";
+    // }
+    // cout << endl;
+    for (int i = 0; i < n; i++)
     {
-        sum += arr[i];
-        if (i < j && sum >= arr[j])
-        {
-            res += (arr[j] + 1);
-            sum -= arr[j];
-            j--;
-        }
-        i++;
+        auto it = lower_bound(cp.begin(), cp.end(), arr[i].second);
+        int add = it - cp.begin();
+        // cout << arr[i].first << " " << add << endl;
+        res += add;
+        cp.erase(it);
     }
-    res += ((sum + 1) / 2 + (sum > 1));
     cout << res << endl;
 }
-
 int32_t main()
 {
     ios::sync_with_stdio(0);

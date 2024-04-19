@@ -5,6 +5,7 @@ const int mod = 1e9 + 7;
 void precal()
 {
 }
+
 int gcd(int a, int b)
 {
     if (b == 0)
@@ -17,7 +18,7 @@ int lcm(int a, int b)
 }
 void simplifyFraction(int &numerator, int &denominator)
 {
-    int common_divisor = gcd(numerator, denominator);
+    int common_divisor = gcd(abs(numerator), abs(denominator));
     numerator /= common_divisor;
     denominator /= common_divisor;
 }
@@ -25,61 +26,49 @@ void solve()
 {
     int n;
     cin >> n;
-    // vector<int> arr(n);
-    // for (int i = 0; i < n; i++)
-    // {
-    //     cin >> arr[i];
-    // }
-    string s;
-    cin >> s;
-    int q;
-    cin >> q;
-    int plus = 0;
-    int minus = 0;
+    vector<int> a(n);
+    vector<int> b(n);
     for (int i = 0; i < n; i++)
     {
-        if (s[i] == '+')
+        cin >> a[i];
+    }
+    for (int i = 0; i < n; i++)
+    {
+        cin >> b[i];
+    }
+    vector<long double> c;
+    int freq = 0;
+    int cal = 0;
+    for (int i = 0; i < n; i++)
+    {
+        if (a[i] == 0 && b[i] == 0)
         {
-            plus++;
+            cal++;
         }
-        else
+        else if (a[i] != 0)
         {
-            minus++;
+            long double cal = (1.0 * b[i]) / (1.0 * a[i]);
+            // cout << cal << endl;
+            c.push_back(cal);
         }
     }
-    int a, b;
-    if (plus > minus)
-    {
-        b = plus;
-        a = minus;
-    }
-    else
-    {
-        b = minus;
-        a = plus;
-    }
-    while (q--)
-    {
+    sort(c.begin(), c.end());
+    int curr = (c.size() >= 1 ? 1 : 0);
 
-        int l, r;
-        cin >> l >> r;
-        if (a == b)
+    for (int i = 1; i < c.size(); i++)
+    {
+        if (c[i] == c[i - 1])
         {
-            cout << "YES" << endl;
-            continue;
-        }
-        simplifyFraction(l, r);
-        int q1 = min(l, r);
-        int p1 = max(l, r);
-        if (p1 != q1 && (b - a) % (p1 - q1) == 0 && (a - ((b - a) / (p1 - q1)) * q1 >= 0))
-        {
-            cout << "YES" << endl;
+            curr++;
         }
         else
         {
-            cout << "NO" << endl;
+            freq = max(freq, curr);
+            curr = 1;
         }
     }
+    freq = max(freq, curr);
+    cout << freq + cal << endl;
 }
 int32_t main()
 {

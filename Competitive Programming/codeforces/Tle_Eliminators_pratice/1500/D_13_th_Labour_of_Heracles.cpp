@@ -19,31 +19,38 @@ void solve()
 {
     int n;
     cin >> n;
-    string s;
-    cin >> s;
-    int i = 0, j = s.size() - 1;
-    while (i < j && s[i] == s[j])
+    vector<int> arr(n + 1);
+    int sum = 0;
+    vector<int> deg(n + 1, 0);
+    for (int i = 1; i <= n; i++)
     {
-        i++;
-        j--;
+        cin >> arr[i];
+        sum += arr[i];
+    }
+    for (int i = 0; i < n - 1; i++)
+    {
+        int x, y;
+        cin >> x >> y;
+        deg[x]++;
+        deg[y]++;
+    }
+    priority_queue<int> pq;
+    for (int i = 1; i <= n; i++)
+    {
+        while (--deg[i])
+        {
+            pq.push(arr[i]);
+        }
     }
 
-    if (s[i] > s[j])
+    cout << sum << " ";
+    for (int i = 0; i < n - 2; i++)
     {
-        reverse(s.begin(), s.end());
-        n--;
+        sum += (pq.top());
+        pq.pop();
+        cout << sum << " ";
     }
-    if (n % 2)
-    {
-        string temp = s;
-        reverse(temp.begin(), temp.end());
-        s += temp;
-        cout << s << endl;
-    }
-    else
-    {
-        cout << s << endl;
-    }
+    cout << endl;
 }
 int32_t main()
 {

@@ -1,55 +1,50 @@
-
 #include <bits/stdc++.h>
 using namespace std;
 #define int long long
 const int mod = 1e9 + 7;
-
-void precal() {}
-
+void precal()
+{
+}
 int gcd(int a, int b)
 {
     if (b == 0)
         return a;
-    else
-        return gcd(b, a % b);
+    return gcd(b, a % b);
 }
-
 int lcm(int a, int b)
 {
     return (a / gcd(a, b)) * b;
 }
-
 void solve()
 {
-    int n;
-    cin >> n;
-
+    int n, a, b;
+    cin >> n >> a >> b;
     vector<int> arr(n);
+    vector<int> pre(n, 0);
     for (int i = 0; i < n; i++)
     {
         cin >> arr[i];
-    }
-    sort(arr.begin(), arr.end());
-    int i = 0;
-    int sum = 0;
-    int j = n - 1;
-    int res = 0;
-
-    while (i <= j)
-    {
-        sum += arr[i];
-        if (i < j && sum >= arr[j])
+        if (i == 0)
         {
-            res += (arr[j] + 1);
-            sum -= arr[j];
-            j--;
+            pre[i] = arr[i];
         }
-        i++;
+        else
+        {
+            pre[i] = pre[i - 1] + arr[i];
+        }
     }
-    res += ((sum + 1) / 2 + (sum > 1));
+    int res = pre[n - 1] * b;
+    for (int i = 0; i < n; i++)
+    {
+        int cal = arr[i] * b + arr[i] * a;
+        // cout << cal << " ";
+        // cout << pre[n - 1] - pre[i] << " ";
+        cal += (b * (pre[n - 1] - pre[i] - (n - i - 1) * arr[i]));
+        // cout << i << " " << cal << endl;
+        res = min(res, cal);
+    }
     cout << res << endl;
 }
-
 int32_t main()
 {
     ios::sync_with_stdio(0);

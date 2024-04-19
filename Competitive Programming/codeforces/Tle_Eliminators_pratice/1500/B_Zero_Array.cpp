@@ -19,30 +19,22 @@ void solve()
 {
     int n;
     cin >> n;
-    string s;
-    cin >> s;
-    int i = 0, j = s.size() - 1;
-    while (i < j && s[i] == s[j])
+    vector<int> arr(n);
+    int sum = 0;
+    int maxi = 0;
+    for (int i = 0; i < n; i++)
     {
-        i++;
-        j--;
+        cin >> arr[i];
+        maxi = max(maxi, arr[i]);
+        sum += arr[i];
     }
-
-    if (s[i] > s[j])
+    if (sum % 2 || 2 * maxi > sum)
     {
-        reverse(s.begin(), s.end());
-        n--;
-    }
-    if (n % 2)
-    {
-        string temp = s;
-        reverse(temp.begin(), temp.end());
-        s += temp;
-        cout << s << endl;
+        cout << "NO" << endl;
     }
     else
     {
-        cout << s << endl;
+        cout << "YES" << endl;
     }
 }
 int32_t main()
@@ -53,13 +45,13 @@ int32_t main()
     cout << fixed;
     cout << setprecision(10);
     precal();
-    // solve();
-    int tc;
-    cin >> tc;
-    for (int t = 1; t <= tc; t++)
-    {
-        // cout << 'CASE' << t << ':' ;
-        solve();
-    }
+    solve();
+    //   int tc;
+    //   cin >> tc;
+    //   for (int t = 1; t <= tc; t++)
+    //   {
+    //       // cout << 'CASE' << t << ':' ;
+    //       solve();
+    //   }
     return 0;
 }

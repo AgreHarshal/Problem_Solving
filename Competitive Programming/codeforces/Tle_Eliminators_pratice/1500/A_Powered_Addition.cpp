@@ -19,31 +19,27 @@ void solve()
 {
     int n;
     cin >> n;
-    string s;
-    cin >> s;
-    int i = 0, j = s.size() - 1;
-    while (i < j && s[i] == s[j])
+    vector<int> arr(n);
+    for (int i = 0; i < n; i++)
     {
-        i++;
-        j--;
+        cin >> arr[i];
     }
-
-    if (s[i] > s[j])
+    int maxi = arr[0];
+    int res = -1;
+    for (int i = 0; i < n; i++)
     {
-        reverse(s.begin(), s.end());
-        n--;
+        if (arr[i] < maxi)
+        {
+            int diff = maxi - arr[i];
+            int cal = log(diff) / log(2);
+            res = max(res, cal);
+        }
+        else if (arr[i] > maxi)
+        {
+            maxi = arr[i];
+        }
     }
-    if (n % 2)
-    {
-        string temp = s;
-        reverse(temp.begin(), temp.end());
-        s += temp;
-        cout << s << endl;
-    }
-    else
-    {
-        cout << s << endl;
-    }
+    cout << res + 1 << endl;
 }
 int32_t main()
 {
